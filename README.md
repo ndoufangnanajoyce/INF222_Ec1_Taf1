@@ -2,7 +2,7 @@
 API REST pour la gestion d'un blog simple développée avec Node.js et Express.
 ## Installation
 ```bash
-git clone [URL_DU_REPO] cd blog-api npm install
+git clone [https://github.com/ndoufangnanajoyce/INF222_Ec1_Taf1.git] cd blog-api npm install
 npm start
 ```
 ## Endpoints disponibles
@@ -65,7 +65,7 @@ Ces bases solides en développement backend ouvrent la voie vers des concepts pl
 ---
 ## ANNEXES
 ### Annexe 1 : Code source complet
-*[Le code source complet de l'application doit être fourni séparément ou via un lien vers le repository Git]*
+*[https://github.com/ndoufangnanajoyce/INF222_Ec1_Taf1.git]*
 ### Annexe 2 : liste des fichiers du projet
 • app. js - Configuration Express et middleware
 • server. js - Point d'entrée et démarrage serveur
