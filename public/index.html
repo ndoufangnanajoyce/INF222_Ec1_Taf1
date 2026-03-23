@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Explorer - API Demo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #ec4899;
+            --bg: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 20%),
+                radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.15) 0%, transparent 20%);
+                background-attachment: fixed;
+            color: var(--text);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #818cf8, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+
+        .btn-outline:hover {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid var(--border);
+            color: var(--text);
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, textarea:focus {
+            border-color: var(--primary);
+        }
+
+        .articles-list {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .article-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .article-card:hover {
+            transform: translateX(10px);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .article-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .tag {
+            background: rgba(99, 102, 241, 0.2);
+            color: #a5b4fc;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .article-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .article-meta {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .article-content {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #cbd5e1;
+        }
+
+        .actions {
+            margin-top: 1rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .search-bar {
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .search-bar input {
+            flex: 1;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div>
+                <h1>Blog Explorer</h1>
+                <p style="color: var(--text-muted)">API Backend Demonstration</p>
+            </div>
+            <div class="flex gap-4">
+                <a href="/api-docs" class="btn btn-outline" target="_blank">📚 Swagger API Docs</a>
+            </div>
+        </header>
+
+        <div class="grid">
+            <aside>
+                <div class="card">
+                    <h2 style="margin-bottom: 1.5rem">Nouvel Article</h2>
+                    <form id="articleForm">
+                        <div class="form-group">
+                            <label>Titre</label>
+                            <input type="text" id="title" placeholder="Titre de l'article" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Auteur</label>
+                            <input type="text" id="author" placeholder="Votre nom" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Catégorie</label>
+                            <input type="text" id="category" placeholder="Tech, Lifestyle, etc.">
+                        </div>
+                        <div class="form-group">
+                            <label>Tags (séparés par virgules)</label>
+                            <input type="text" id="tags" placeholder="node, express, api">
+                        </div>
+                        <div class="form-group">
+                            <label>Contenu</label>
+                            <textarea id="content" rows="6" placeholder="Le contenu de votre article..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%">🚀 Publier l'article</button>
+                    </form>
+                </div>
+            </aside>
+
+            <main>
+                <div class="search-bar">
+                    <input type="text" id="searchInput" placeholder="Rechercher par titre ou contenu...">
+                    <button class="btn btn-outline" onclick="searchArticles()">🔍</button>
+                    <button class="btn btn-outline" onclick="loadArticles()">🔄 Actualiser</button>
+                </div>
+
+                <div id="articlesList" class="articles-list">
+                    <!-- Les articles seront chargés ici -->
+                    <div class="empty-state">Chargement des articles...</div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = '/api/articles';
+
+        async function loadArticles() {
+            try {
+                const res = await fetch(API_URL);
+                const articles = await res.json();
+                renderArticles(articles);
+            } catch (err) {
+                console.error('Erreur:', err);
+            }
+        }
+
+        async function searchArticles() {
+            const query = document.getElementById('searchInput').value;
+            if (!query) return loadArticles();
+            
+            try {
+                const res = await fetch(`${API_URL}/search?query=${encodeURIComponent(query)}`);
+                const articles = await res.json();
+                renderArticles(articles);
+            } catch (err) {
+                console.error('Erreur:', err);
+            }
+        }
+
+        function renderArticles(articles) {
+            const list = document.getElementById('articlesList');
+            if (articles.length === 0) {
+                list.innerHTML = '<div class="empty-state">Aucun article trouvé.</div>';
+                return;
+            }
+
+            list.innerHTML = articles.map(art => `
+                <div class="article-card">
+                    <div class="article-header">
+                        <span class="tag">${art.category || 'Général'}</span>
+                        <span style="font-size: 0.8rem; color: var(--text-muted)">${new Date(art.date).toLocaleDateString()}</span>
+                    </div>
+                    <div class="article-title">${art.title}</div>
+                    <div class="article-meta">Par <strong>${art.author}</strong></div>
+                    <div class="article-content">${art.content.length > 200 ? art.content.substring(0, 200) + '...' : art.content}</div>
+                    <div class="actions">
+                        <button class="btn btn-outline" style="padding: 0.4rem 0.8rem; font-size: 0.8rem" onclick="deleteArticle(${art.id})">🗑️ Supprimer</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function deleteArticle(id) {
+            if (!confirm('Voulez-vous vraiment supprimer cet article ?')) return;
+            try {
+                await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+                loadArticles();
+            } catch (err) {
+                console.error('Erreur:', err);
+            }
+        }
+
+        document.getElementById('articleForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = {
+                title: document.getElementById('title').value,
+                author: document.getElementById('author').value,
+                category: document.getElementById('category').value,
+                tags: document.getElementById('tags').value,
+                content: document.getElementById('content').value
+            };
+
+            try {
+                const res = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                if (res.ok) {
+                    e.target.reset();
+                    loadArticles();
+                } else {
+                    const error = await res.json();
+                    alert('Erreur: ' + error.error);
+                }
+            } catch (err) {
+                console.error('Erreur:', err);
+            }
+        });
+
+        loadArticles();
+    </script>
+</body>
+</html>
