@@ -1,62 +1,83 @@
-# Blog API - Gestion d'articles
-
-Une API RESTful pour la gestion d'un blog, construite avec Node.js, Express et SQLite.
-
-## Fonctionnalités
-
-- **CRUD complet** : Créer, lire, mettre à jour et supprimer des articles.
-- **Filtrage** : Récupérer des articles par catégorie, auteur ou date.
-- **Recherche** : Rechercher des articles par titre ou contenu.
-- **Documentation Swagger** : Interface interactive pour tester l'API.
-- **Validation** : Validation des entrées utilisateur.
-
+```markdown # Blog API
+API REST pour la gestion d'un blog simple développée avec Node.js et Express.
 ## Installation
-
-1. Clonez le dépôt (ou téléchargez les fichiers).
-2. Installez les dépendances :
-   ```bash
-   npm install
-   ```
-3. Lancez le serveur :
-   ```bash
-   npm start
-   ```
-   Le serveur sera disponible sur `http://localhost:3000`.
-
-## Documentation API
-
-La documentation Swagger est disponible sur :
-`http://localhost:3000/api-docs`
-
-### Points de terminaison (Endpoints)
-
+```bash
+git clone [URL_DU_REPO] cd blog-api npm install
+npm start
+```
+## Endpoints disponibles
 | Méthode | Endpoint | Description |
-| --- | --- | --- |
-| POST | `/api/articles` | Créer un article |
-| GET | `/api/articles` | Liste de tous les articles (filtres optionnels) |
-| GET | `/api/articles/{id}` | Détails d'un article |
-| PUT | `/api/articles/{id}` | Modifier un article |
-| DELETE | `/api/articles/{id}` | Supprimer un article |
-| GET | `/api/articles/search?query=...` | Rechercher des articles |
-
-## Structure du projet
-
+|---------|----------|-------------|
+| GET | /api/articles | Liste tous les articles |
+| GET | /api/articles/:id | Récupère un article spécifique |
+| POST | /api/articles | Crée un nouvel article |
+| PUT | /api/articles/:id | Modifie un article existant |
+| DELETE | /api/articles/:id | Supprime un article |
+| GET | /api/articles/search | Recherche dans les articles |
+## Documentation Swagger
+Accéder à http://localhost:3000/api-docs pour tester l'API.
+## Exemples d'utilisation ### Créer un article
+```bash
+curl -X POST http://localhost:3000/api/articles \
+-H "Content-Type: application/json" \
+-d '{"titre":"Mon premier article","contenu":"Contenu...","auteur":"Nana","categorie":"Tech"}'
 ```
-/
-├── src/
-│   ├── config/       # Configuration (DB, Swagger)
-│   ├── controllers/  # Logique métier
-│   ├── middleware/   # Validation
-│   ├── models/       # Modèles de données (SQLite)
-│   ├── routes/       # Définition des routes
-│   └── app.js        # Entrée de l'application
-├── public/           # Interface web (optionnel)
-└── database.sqlite   # Fichier de base de données
+### Rechercher des articles
+```bash
+curl "http://localhost:3000/api/articles/search?query=tech"
 ```
+```
+---
+## PARTIE 3 : ANALYSE CRITIQUE
+### Critiques de la plateforme CleeRoute
+**Points forts :**
 
-## Technologies utilisées
-
-- **Backend** : Node.js, Express
-- **Base de données** : SQLite (via `sqlite3`)
-- **Documentation** : Swagger (`swagger-ui-express`, `swagger-jsdoc`)
-- **Utilitaires** : `cors`, `dotenv`, `body-parser`
+-	Personnalisation du parcours d'apprentissage
+-	Assistant IA intégré
+-	Structure progressive des modules
+-	Quiz d'évaluation réguliers
+**Points à améliorer :**
+-	Plus d'exercices pratiques interactifs
+-	 Intégration directe d'un environnement de code
+### Critiques de l'implémentation technique
+**Améliorations possibles de l'API :**
+-	Ajout d'une authentification JWT
+-	Pagination des résultats
+-	Upload d'images pour les articles
+-	Cache avec Redis
+-	Tests unitaires avec Jest
+**Apprentissages clés :**
+-	Importance de la validation des entrées
+-	Nécessité d'une documentation claire
+-	Structuration modulaire du code
+---
+## CONCLUSION
+Ce TAF 1 a permis de combiner théorie et pratique dans l'apprentissage du développement backend. À travers l'utilisation de CleeRoute, j'ai pu structurer mon apprentissage des concepts fondamentaux des API REST, puis les appliquer concrètement dans le développement d'une API de blog fonctionnelle.
+**Bilan des compétences acquises :**
+-	✓ Compréhension des architectures backend
+-	✓ Maîtrise de Node.js et Express
+-	✓ Création d'API RESTful avec CRUD complet
+-	✓ Documentation d'API avec Swagger
+-	✓ Validation des données et gestion des erreurs
+-	✓ Utilisation d'outils d'apprentissage adaptatifs
+**Perspectives :**
+Ces bases solides en développement backend ouvrent la voie vers des concepts plus avancés : authentification OAuth, websockets temps réel, déploiement cloud, et architecture microservices.
+---
+## ANNEXES
+### Annexe 1 : Code source complet
+*[Le code source complet de l'application doit être fourni séparément ou via un lien vers le repository Git]*
+### Annexe 2 : liste des fichiers du projet
+• app. js - Configuration Express et middleware
+• server. js - Point d'entrée et démarrage serveur
+• config/database. js - Connexion SQLite
+• controllers/articleController.js - Logique métier CRU
+• models/articleModel.js - Requêtes SQL
+routes/articleRoutes. js - Définition des routes
+• middleware/validation.js - Validation express-validator
+• swagger/swagger. json - Configuration OpenAPI
+### Annexe 3 : Références
+-	Documentation Express.js : https://expressjs.com/
+-	Documentation SQLite : https://www.sqlite.org/docs.html
+-	OpenAPI/Swagger Specification : https://swagger.io/specification/
+-	CleeRoute : https://www.cleeroute.com/fr
+---
